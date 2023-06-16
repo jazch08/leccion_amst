@@ -62,8 +62,15 @@ public class Busqueda_heroes extends AppCompatActivity {
                                 LinearLayout linearHeros = findViewById(R.id.linearHeros);
                                 linearHeros.setOrientation(LinearLayout.VERTICAL);
                                 TextView hero_name = new TextView(getApplicationContext());
-
                                 hero_name.setText(hero.get("name").toString());
+                                String id_hero = hero.get("id").toString();
+                                hero_name.setClickable(true);
+                                hero_name.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        detalle_hero(v,id_hero);
+                                    }
+                                });
                                 linearHeros.addView(hero_name);
 
 
@@ -81,4 +88,12 @@ public class Busqueda_heroes extends AppCompatActivity {
         });
         mQueue.add(request);
     }
+
+    public void detalle_hero(View view, String id){
+        Intent intent = new Intent(this, DetalleHero.class);
+        intent.putExtra("id_hero",id);
+        startActivity(intent);
+    }
+
+
 }

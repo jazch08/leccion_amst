@@ -34,6 +34,7 @@
             android:id="@+id/linearHeros"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:clickable="false"
             android:orientation="vertical"></LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
