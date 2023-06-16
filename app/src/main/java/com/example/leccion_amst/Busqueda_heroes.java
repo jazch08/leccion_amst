@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -51,7 +53,22 @@ public class Busqueda_heroes extends AppCompatActivity {
                             System.out.println(array);
                             int cantidad = array.length();
 
-                            
+                            TextView txtCantidad = findViewById(R.id.txtCantidad);
+                            txtCantidad.setText(String.valueOf(cantidad));
+
+
+                            for(int i=0 ; i<cantidad ; i++){
+                                JSONObject hero = (JSONObject) array.get(i);
+                                LinearLayout linearHeros = findViewById(R.id.linearHeros);
+                                linearHeros.setOrientation(LinearLayout.VERTICAL);
+                                TextView hero_name = new TextView(getApplicationContext());
+
+                                hero_name.setText(hero.get("name").toString());
+                                linearHeros.addView(hero_name);
+
+
+                            }
+
 
                         } catch (Exception e) {
                             e.printStackTrace();
