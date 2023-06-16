@@ -47,6 +47,11 @@
                 android:layout_height="101dp"
                 tools:srcCompat="@tools:sample/avatars" />
         </LinearLayout>
+
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/chartPowerstats"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

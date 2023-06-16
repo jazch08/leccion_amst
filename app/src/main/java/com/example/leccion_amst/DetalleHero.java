@@ -3,10 +3,9 @@ package com.example.leccion_amst;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -15,13 +14,24 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class DetalleHero extends AppCompatActivity {
     private String id_hero;
+    private ArrayList barArrayList;
 
     private RequestQueue mQueue;
     @Override
@@ -61,6 +71,44 @@ public class DetalleHero extends AppCompatActivity {
 
                             txt_nombreRealHero.setText(bloque_biography.getString("full-name"));
                             Picasso.get().load(url_image).into(imageHero);
+
+                            BarChart chartPowerstats = findViewById(R.id.chartPowerstats);
+
+                            Iterator<String> iter = bloque_powerstats.keys();
+
+                            barArrayList = new ArrayList();
+                            ArrayList<String> arrayXlabels = new ArrayList<>();
+                            float xvalue = 1f;
+
+                            while (iter.hasNext()){
+                                String iterString = iter.next().toString();
+                                String valueS = bloque_powerstats.getString(iterString);
+                                if(!valueS.equals("null")){
+                                    arrayXlabels.add(iterString);
+                                    System.out.println(iterString);
+                                    float value = Float.parseFloat(valueS);
+                                    System.out.println(value);
+                                    barArrayList.add(new BarEntry(xvalue,value));
+                                    xvalue+=1f;
+                                }
+                            }
+
+                            System.out.println(barArrayList.toString());
+                            System.out.println(arrayXlabels.toString());
+
+                            BarDataSet barDataSet = new BarDataSet(barArrayList,"");
+                            BarData barData = new BarData(barDataSet);
+                            chartPowerstats.setData(barData);
+                            barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+                            barDataSet.setValueTextColor(Color.BLACK);
+                            barDataSet.setValueTextSize(16f);
+                            chartPowerstats.getDescription().setEnabled(false);
+                            chartPowerstats.invalidate();
+
+                            chartPowerstats.getXAxis().setValueFormatter(new IndexAxisValueFormatter(arrayXlabels));
+                            chartPowerstats.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+                            chartPowerstats.getXAxis().setGranularity(1f);
+                            chartPowerstats.getXAxis().setGranularityEnabled(true);
 
 
 
